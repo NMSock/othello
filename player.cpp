@@ -20,6 +20,8 @@ Player::Player(Side side) {
  * Destructor for the player.
  */
 Player::~Player() {
+
+// deconstruct anything necessary
 }
 
 /*
