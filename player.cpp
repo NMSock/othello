@@ -50,18 +50,74 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     vector<Move*> moves;
 
     if (board->hasMoves(pside)) {
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                Move * move = new Move(x, y);
-                if (board->checkMove(move, pside)) {
-                    moves.push_back(move);
-                }
-            }
+
+        moves = board->getMoves(pside);
+
+        Move * chosenMove = nullptr;
+
+        chosenMove = prioritySpot(moves);
+        if (chosenMove == nullptr) {
+            chosenMove = minimax(moves);
         }
-        Move * chosenMove = moves[0];
+
         board->doMove(chosenMove, pside);
-        return moves[0];
+        return chosenMove;
     }
 
     return nullptr;
+}
+
+Move *Player::prioritySpot(vector<Move*> moves) {
+    // if we can get a corner, or an edge, we should
+    // prioritize those moves
+
+    // prioritize corners over edges
+    for (unsigned int i = 0; i < moves.size(); i++) {
+        int x = moves[i]->getX();
+        int y = moves[i]->getY();
+        if ((x == 0 && y == 0) || (x == 0 && y == 7) ||
+            (x == 7 && y == 0) || (x == 7 && y == 7)) {
+            return moves[i];
+        }
+    }
+
+    // then check edges
+    for (unsigned int i = 0; i < moves.size(); i++) {
+        int x = moves[i]->getX();
+        int y = moves[i]->getY();
+        if (x == 0 || x == 7 || y == 0 || y == 7) {
+            return moves[i];
+        }
+    }
+    return nullptr;
+}
+
+Move *Player::minimax(vector<Move*> moves) {
+    Move * chosenMove = moves[0];
+
+    int minOBest = 65;
+    for (unsigned int i = 0; i < moves.size(); i++) {
+        // check all states after our possible moves
+        Board * possBoard = board->copy();
+        possBoard->doMove(moves[i], pside);
+        vector<Move*> omoves = possBoard->getMoves(oside);
+        
+        int bestOTotal = 0;
+        for (unsigned int j = 0; j < omoves.size(); j++) {
+            // check all states after opponent's moves, given our move
+            Board * futureBoard = board->copy();
+            futureBoard->doMove(omoves[j], oside);
+            int ototal = futureBoard->count(oside);
+            if (ototal > bestOTotal) {
+                bestOTotal = ototal;
+            }
+        }
+
+        // want to minimize our opponent's best option
+        if (bestOTotal < minOBest) {
+            minOBest = bestOTotal;
+            chosenMove = moves[i];
+        }
+    }
+    return chosenMove;
 }
