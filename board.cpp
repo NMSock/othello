@@ -175,6 +175,16 @@ int Board::countWhite() {
     return taken.count() - black.count();
 }
 
+int Board::heuristic(Side pside, Side oside) {
+    int pscore = count(pside);
+    int oscore = count(oside);
+
+    for (unsigned int i = 0; i < 8; i++) {
+        int j = 0;
+    }
+
+}
+
 /*
  * Sets the board state given an 8x8 char array where 'w' indicates a white
  * piece and 'b' indicates a black piece. Mainly for testing purposes.

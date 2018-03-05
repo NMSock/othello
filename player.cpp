@@ -94,6 +94,7 @@ Move *Player::prioritySpot(vector<Move*> moves) {
             return moves[i];
         }
     }
+    
     return nullptr;
 }
 
