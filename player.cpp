@@ -23,7 +23,7 @@ Player::Player(Side side) {
  */
 Player::~Player() {
 
-// deconstruct anything necessary
+    // deconstruct anything necessary
 
     delete board;
 }
@@ -55,8 +55,13 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
         Move * chosenMove = nullptr;
 
-        chosenMove = prioritySpot(moves);
-        if (chosenMove == nullptr) {
+        if (!testingMinimax) {
+            chosenMove = prioritySpot(moves);
+            if (chosenMove == nullptr) {
+                chosenMove = minimax(moves);
+            }
+        }
+        else {
             chosenMove = minimax(moves);
         }
 
