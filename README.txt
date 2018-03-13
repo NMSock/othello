@@ -1,0 +1,4 @@
+
+Throughout the past two weeks, we started early by creating our Github repository and committing some small comments. We worked together for most of the time and confirmed changes with each other before committing changes. Alex did a good job brainstorming ideas and creating psuedocode that Noah mostly implemented. Noah was able to finish doMove function while Alex focused on the minimax algorithm. Overall, the duo spent most of their time working together.
+
+We tried to make our AI look farther to make better decisions for minimizing losses and maximizing gains made by the next move. However, we were not able to get that implementation to work farther than 2 moves ahead. We tried to make certain positions valued more than others. We tried to capture corners and sides while avoiding the spot right next to the corners. In the end, we settled on always capturing corners/edges if able, before looking at minimax to decide our next move.
